@@ -14,8 +14,7 @@ to 'Swift', and you'll be good to go!
 
 ## 2. Register a new Spotify Application
 
-Follow Spotify's [Register Your Application]
-(https://developer.spotify.com/web-api/tutorial/#registering-your-application)
+Follow Spotify's [Register Your Application][1]
 guide to create a new set of Spotify app credentials.
 
 ## 3. Prepare some variables
@@ -38,16 +37,14 @@ template string for `spotifyAccountsAuthorizeUri`, the base URI that you present
 to your users to let them authorize your app to work with their Spotify account.
 
 Next, we set up a client ID. This is available in the Spotify application you
-set up in [Your Applications]
-https://developer.spotify.com/my-applications/#!/applications). We'll use this
+set up in [Your Applications][2]. We'll use this
 to present the authorization dialog for your app to your users.
 
 We're going to use a URI Scheme to handle the redirection from the Spotify
 accounts service back to your application once the user has authorized (or
 decided not to authorize) your app. To handle this, we create a `uriSchemeBase`.
 You can choose your own URI Scheme base, but it should be unique to your
-application, and should be in [kebab-case]
-(https://en.wikipedia.org/wiki/Letter_case#Special_case_styles), with all
+application, and should be in [kebab-case][3], with all
 letters lowercase. We'll modify your `App.plist` to tell macOS that your
 application can handle your URI schema in a later step.
 
@@ -56,7 +53,7 @@ will be directed to once they've completed their steps of the implicit grant
 flow. We'll listen for requests made to this URI later on in order to recieve
 our access token. At this stage, you should take your full redirect uri (in this
 case, `my-awesome-amm://spotifyOauthCallback`), and whitelist it in your
-application settings page on [developer.spotify.com](//developer.spotify.com).
+application settings page on [developer.spotify.com][4].
 Remember to click save!
 
 ## 4. Present Spotify authorization dialog to user
@@ -173,7 +170,7 @@ value of the inner `Item 0` to the value of your `uriSchemeBase` constant, set
 at the top of your `AppDelegate`. In this example, it's `my-awesome-app`. Now
 your app should be ready to handle requests using your URI Scheme!
 
-![URL Scheme in Info.plist](https://gist.githubusercontent.com/hughrawlinson/b8c3db60fc3c1fb77ab74a1065c610c1/raw/e75674be57baef774465a8471eae7d3ff8fc2c74/URL_Scheme.png)
+![URL Scheme in Info.plist][5]
 
 ## 6. Use access token to query the Spotify API
 
@@ -242,5 +239,12 @@ mine.
 Congrats on implementing the Implicit Grant OAuth flow in your macOS app! You've
 done well! The entire `AppDelegate.swift` is available in this repo. If you need
 any more help writing Spotify applications for macOS or any other platform,
-please reach out to [@SpotifyPlatform](https://twitter.com/spotifyplatform) on
+please reach out to [@SpotifyPlatform][6] on
 Twitter. Happy hacking!
+
+ [1]: https://developer.spotify.com/web-api/tutorial/#registering-your-application
+ [2]: https://developer.spotify.com/my-applications/#!/applications
+ [3]: https://en.wikipedia.org/wiki/Letter_case#Special_case_styles
+ [4]: //developer.spotify.com
+ [5]: https://raw.githubusercontent.com/hughrawlinson/spotify-implicit-grant-macos/master/URL_Scheme.png
+ [6]: https://twitter.com/spotifyplatform

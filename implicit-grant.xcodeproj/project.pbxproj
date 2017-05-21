@@ -20,6 +20,8 @@
 		1E4886AF1ED0F49200E96056 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1E4886B21ED0F49200E96056 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1E4886B41ED0F49200E96056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E4886BA1ED19D2E00E96056 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		1E4886BB1ED19D2E00E96056 /* URL_Scheme.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = URL_Scheme.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +38,8 @@
 		1E48869F1ED0F49200E96056 = {
 			isa = PBXGroup;
 			children = (
+				1E4886BA1ED19D2E00E96056 /* README.md */,
+				1E4886BB1ED19D2E00E96056 /* URL_Scheme.png */,
 				1E4886AA1ED0F49200E96056 /* implicit-grant */,
 				1E4886A91ED0F49200E96056 /* Products */,
 			);

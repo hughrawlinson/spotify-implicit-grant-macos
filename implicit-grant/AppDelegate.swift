@@ -19,20 +19,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var accessToken: String? = nil
     
     func handleGetURLEvent(event: NSAppleEventDescriptor) {
-        if let fullUrl = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue {
-            if let fragmentComponents = URL(string: fullUrl) {
-                NSURLComponents(string: "?\((fragmentComponents.fragment)!)")?.queryItems?.forEach({ (item) in
-                    if item.name == "access_token" {
-                        accessToken = item.value
-                        getSpotifyUserDetails(dataHandler: { (details) in
-                            if details["display_name"] != nil {
-                                print("Congrats on implementing the Spotify Implicit Grant flow in your macOS Application, \(details["display_name"]!)!")
-                            }
-                        })
+        guard let fullUrl = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue else {
+            return
+        }
+        
+        guard let fragmentComponentsURL = URL(string: fullUrl) else {
+            return
+        }
+        
+        guard let fragmentComponentQueryItems = NSURLComponents(string: "?\((fragmentComponentsURL.fragment)!)")?.queryItems else {
+            return
+        }
+        
+        fragmentComponentQueryItems.forEach({ (item) in
+            if item.name == "access_token" {
+                accessToken = item.value
+                getSpotifyUserDetails(dataHandler: { (details) in
+                    if details["display_name"] != nil {
+                        print("Congrats on implementing the Spotify Implicit Grant flow in your macOS Application, \(details["display_name"]!)!")
                     }
                 })
             }
-        }
+        })
     }
     
     func getSpotifyUserDetails(dataHandler: @escaping ([String: Any]) -> Void) {
@@ -50,6 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response))")
                 }
+
                 if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
                     if let dictionary = json as? [String: Any] {
                         dataHandler(dictionary)

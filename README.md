@@ -150,17 +150,24 @@ Now we'll implement our handler that `appleEventManager` will call.
 var accessToken: String? = nil
 
 func handleGetURLEvent(event: NSAppleEventDescriptor) {
-    if let fullUrl = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue {
-        if let fragmentComponents = URL(string: fullUrl) {
-            NSURLComponents(string: "?\((fragmentComponents.fragment)!)")?.queryItems?.forEach({ (item) in
-                if item.name == "access_token" {
-                    // After parsing the URL, store the accessToken in our class field for use later
-                    accessToken = item.value
-                    print(accessToken as Any)
-                }
-            })
-        }
+    guard let fullUrl = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue else {
+        return
     }
+
+    guard let fragmentComponentsURL = URL(string: fullUrl) else {
+        return
+    }
+
+    guard let fragmentComponentQueryItems = NSURLComponents(string: "?\((fragmentComponentsURL.fragment)!)")?.queryItems else {
+        return
+    }
+
+    fragmentComponentQueryItems.forEach({ (item) in
+        if item.name == "access_token" {
+            accessToken = item.value
+            print(accessToken)
+        }
+    })
 }
 ```
 
@@ -215,20 +222,28 @@ Finally, we'll execute this function inside our redirect URI handler. The full
 
 ```swift
 func handleGetURLEvent(event: NSAppleEventDescriptor) {
-    if let fullUrl = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue {
-        if let fragmentComponents = URL(string: fullUrl) {
-            NSURLComponents(string: "?\((fragmentComponents.fragment)!)")?.queryItems?.forEach({ (item) in
-                if item.name == "access_token" {
-                    accessToken = item.value
-                    getSpotifyUserDetails(dataHandler: { (details) in
-                        if details["display_name"] != nil {
-                            print("Congrats on implementing the Spotify Implicit Grant flow in your macOS Application, \(details["display_name"]!)!")
-                        }
-                    })
+    guard let fullUrl = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue else {
+        return
+    }
+
+    guard let fragmentComponentsURL = URL(string: fullUrl) else {
+        return
+    }
+
+    guard let fragmentComponentQueryItems = NSURLComponents(string: "?\((fragmentComponentsURL.fragment)!)")?.queryItems else {
+        return
+    }
+
+    fragmentComponentQueryItems.forEach({ (item) in
+        if item.name == "access_token" {
+            accessToken = item.value
+            getSpotifyUserDetails(dataHandler: { (details) in
+                if details["display_name"] != nil {
+                    print("Congrats on implementing the Spotify Implicit Grant flow in your macOS Application, \(details["display_name"]!)!")
                 }
             })
         }
-    }
+    })
 }
 ```
 
